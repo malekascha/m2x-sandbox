@@ -1,8 +1,3 @@
-/** Script ACLs do not delete 
- read=nobody 
-write=nobody
-execute=authenticated 
-  **/ 
  var http = require('http');
 var requestObj = {
   "url": 'https://api-m2x.att.com/v2',
@@ -14,15 +9,20 @@ requestObj.headers = {
   "X-M2X-KEY": '8c57404c58743081ab47a68c9f67409a'
 };
 
+var info = JSON.parse(request.rawBody);
+console.log(request.parameters);
+console.log(info);
+
+
 requestObj.url += '/devices/757e63b7ac11490712ddc43c11cfcdee';
-requestObj.url += '/streams/temperature/value';
+requestObj.url += '/streams/'+info.stream+'/value';
 
 var body = {
-  "value": 288
+  "value": info.value
 };
 
 requestObj.bodyString = JSON.stringify(body);
 
 var res = http.request(requestObj);
 
-return res;			
+return res;
